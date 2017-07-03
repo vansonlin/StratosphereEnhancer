@@ -65,6 +65,7 @@ function hasAllScopes(grantedScopes) {
 
 const user = {
   "id": 0,
+  "real_name": "",
   "pages": new Set(),
   "friends": new Set()
 }
@@ -78,6 +79,7 @@ function queryUserId() {
       console.log(response);
       if (response && !response.error) {
         user.id = response.id;
+        user.real_name = response.name;
       }
     }
   );
@@ -146,23 +148,19 @@ function calculate(liked) {
   console.log("score: %s", score);
 
   // save score to datastore
-  var data = JSON.stringify({
-    user_id: 12345,
-    name: "vanson",
+  queryUserId();
+  var user_data = JSON.stringify({
+    user_id: user.id,
+    name: user.real_name,
     score: score
   });
 
-  send_data("test");
+  send_data(user_data);
   window.location = "./question.html";
 }
 
 const send_data = function (user_data) {
-  var data = JSON.stringify({
-    name: "vanson",
-    score: 90
-  });
-
-  console.log(data);
+  console.log(user_data);
   var url = "https://us-central1-stratosphere-172603.cloudfunctions.net/save_to_datastore";
   const xhr = new XMLHttpRequest();
   xhr.open('POST', url);
@@ -170,7 +168,7 @@ const send_data = function (user_data) {
   xhr.onload = function (response) {
     console.log(response);
   }
-  xhr.send(data);
+  xhr.send(user_data);
 }
 
 const send_data1 = function (user_data) {
