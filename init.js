@@ -43,7 +43,27 @@ function myFacebookLogin() {
 
   FB.getLoginStatus(function (response) {
     if (response.status === 'connected') {
-      queryData();
+      console.log("hey");
+      queryLikedPages();
     }
   })
+}
+
+const user = {
+  "pages": []
+}
+
+const queryLikedPages = function () {
+  FB.api(
+    "/me/likes",
+    function (response) {
+      console.log(response)
+      if (response && !response.error) {
+        for (var id in response.data) {
+          user.pages.push(response.data[id].id);
+        }
+      }
+      console.log(user.pages);
+    }
+  );
 }
