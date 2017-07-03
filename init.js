@@ -40,6 +40,7 @@ function myFacebookLogin() {
     console.log(response);
     if (hasAllScopes(response.authResponse.grantedScopes)) {
       console.log("has all");
+      queryUserId();
       queryLikedPages("/me/likes");
       queryFriends("/me/friends");
     } else {
@@ -64,11 +65,24 @@ function hasAllScopes(grantedScopes) {
 }
 
 const user = {
+  "id": 0,
   "pages": new Set(),
   "friends": new Set()
 }
 
 let count = 0;
+
+function queryUserId() {
+  FB.api(
+    "/me",
+    function (response) {
+      console.log(response);
+      if (response && !response.error) {
+        user.id = response.id;
+      }
+    }
+  );
+}
 
 function queryLikedPages(next) {
   console.log(count++);
@@ -140,18 +154,20 @@ function calculate(liked) {
 
 
 const send_data = function (user_data) {
-    var data = JSON.stringify({
-        name: "vanson",
-        score: 90
-    });
+  var data = JSON.stringify({
+    name: "vanson",
+    score: 90
+  });
 
-    console.log(json);
-    var url = "https://us-central1-stratosphere-172603.cloudfunctions.net/save_to_datastore";
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.setRequestHeader("Content-Type", "application/json"); 
-    xhr.send(data);
-
+  console.log(data);
+  var url = "https://us-central1-stratosphere-172603.cloudfunctions.net/save_to_datastore";
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', url);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.onload = function (response) {
+    console.log(response);
+  }
+  xhr.send(data);
 }
 
 
@@ -159,27 +175,25 @@ const send_data = function (user_data) {
 const send_data1 = function (user_data) {
   var url = "https://us-central1-stratosphere-172603.cloudfunctions.net/save_to_datastore";
   $.ajax({
-    url : url,
+    url: url,
     type: "POST",
     data: JSON.stringify({
-        name: "vanson",
-        score: 90
+      name: "vanson",
+      score: 90
     }),
     xhrFields: {
-    // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
-    // This can be used to set the 'withCredentials' property.
-    // Set the value to 'true' if you'd like to pass cookies to the server.
-    // If this is enabled, your server must respond with the header
-    // 'Access-Control-Allow-Credentials: true'.
+      // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+      // This can be used to set the 'withCredentials' property.
+      // Set the value to 'true' if you'd like to pass cookies to the server.
+      // If this is enabled, your server must respond with the header
+      // 'Access-Control-Allow-Credentials: true'.
       withCredentials: false
     },
     contentType: "application/json; charset=utf-8",
-    dataType   : "json",
-    success    : function(){
-        console.log("Pure jQuery Pure JS object");
+    dataType: "json",
+    success: function () {
+      console.log("Pure jQuery Pure JS object");
     }
-  });  
+  });
 
 }
-
-
