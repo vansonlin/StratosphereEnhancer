@@ -1,3 +1,4 @@
+// Load FB sdk
 window.fbAsyncInit = function () {
   FB.init({
     appId: '312624395863613',
@@ -17,7 +18,7 @@ window.fbAsyncInit = function () {
   });
 };
 
-// Load FB 
+// Load FB sdk
 (function (d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) {
@@ -31,19 +32,13 @@ window.fbAsyncInit = function () {
 
 // Only works after `FB.init` is called
 function myFacebookLogin() {
-  FB.login(function () {
-    FB.api('/me/feed',
-      'post', {
-        message: 'Hello, world!'
-      }
-    );
-  }, {
-    scope: 'user_likes,email'
-  });
-
   FB.getLoginStatus(function (response) {
     if (response.status === 'connected') {
       queryLikedPages("/me/likes");
+    } else {
+      FB.login(myFacebookLogin, {
+        scope: 'user_likes,email'
+      });
     }
   });
 }
@@ -55,21 +50,22 @@ const user = {
 let count = 0
 
 const queryLikedPages = function (next) {
-  console.log(count++);
+  //  console.log(count++);
   FB.api(
     next, {
       "limit": 100
     },
     function (response) {
+      console.log(response.data)
       if (response && !response.error) {
-        console.log("len: %s", response.data.length)
+        //        console.log("len: %s", response.data.length)
         for (var id in response.data) {
           user.pages.add(response.data[id].id);
         }
         if (response.paging && response.paging.next) {
           queryLikedPages(response.paging.next)
         } else {
-          console.log("number of page: %s", user.pages.size);
+          //          console.log("number of page: %s", user.pages.size);
           calculate(user.pages)
         }
       }
@@ -94,5 +90,7 @@ const calculate = function (liked) {
   let x = intersecPo.size - intersecNe.size;
   let score = (x + 15) * 100 / 35
 
+  score = Math.round(score);
+  alert("你只有！！！ " + score + " 分！！！");
   console.log("score: %s", score);
 }
