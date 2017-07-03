@@ -30,17 +30,54 @@ window.fbAsyncInit = function () {
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-// Only works after `FB.init` is called
+// Only works after`FB.init` is called
+// TODO(vanson): figure out the e04 login flow.
 function myFacebookLogin() {
-  FB.getLoginStatus(function (response) {
-    if (response.status === 'connected') {
-      queryLikedPages("/me/likes");
-    } else {
-      FB.login(myFacebookLogin, {
-        scope: 'user_likes,email'
-      });
-    }
+  console.log("myFacebookLogin")
+  FB.login(function (response) {
+    console.log(response);
+  }, {
+    scope: "user_likes,user_friends",
+    return_scopes: true
   });
+  //  FB.getLoginStatus(function (response) {
+  //    if (response.status === "connected") {
+  //      verifyToken();
+  //    } else {
+  //      FB.login(myFacebookLogin, {
+  //        scope: 'user_likes,user_friends'
+  //      });
+  //    }
+  //  })
+}
+
+function verifyToken() {
+  FB.api(
+    "/me/permissions",
+    function (response) {
+      console.log(response.data);
+      hasPermission = false;
+      permissions = response.data;
+      for (let i = 0; i < permissions.length; i++) {
+        console.log(permissions[i])
+        console.log(permissions[i].permission)
+        if (permissions[i].permission === "user_likes" && permissions[i].status === "granted") {
+          hasPermission = true;
+        }
+      }
+
+      if (hasPermission) {
+        console.log("hasPermission")
+        queryLikedPages()
+      } else {
+        console.log("no Permission")
+        FB.login(myFacebookLogin, {
+          scope: 'user_likes',
+          auth_type: "reauthenticate"
+        });
+      }
+    }
+  )
 }
 
 const user = {
@@ -49,23 +86,23 @@ const user = {
 
 let count = 0
 
-const queryLikedPages = function (next) {
+function queryLikedPages(next) {
   //  console.log(count++);
   FB.api(
     next, {
       "limit": 100
     },
     function (response) {
-      console.log(response.data)
+      // console.log(response.data)
       if (response && !response.error) {
-        //        console.log("len: %s", response.data.length)
+        // console.log("len: %s", response.data.length)
         for (var id in response.data) {
           user.pages.add(response.data[id].id);
         }
         if (response.paging && response.paging.next) {
           queryLikedPages(response.paging.next)
         } else {
-          //          console.log("number of page: %s", user.pages.size);
+          // console.log("number of page: %s", user.pages.size);
           calculate(user.pages)
         }
       }
@@ -73,7 +110,7 @@ const queryLikedPages = function (next) {
   );
 }
 
-const calculate = function (liked) {
+function calculate(liked) {
   ne = new Set()
   for (var id in JSON.parse(negativePages)) {
     ne.add(id);
