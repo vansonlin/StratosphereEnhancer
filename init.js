@@ -86,7 +86,7 @@ function queryUserId() {
 }
 
 function queryLikedPages(next) {
-  console.log(count++);
+  //console.log(count++);
   FB.api(
     next, {
       "limit": 100
@@ -156,7 +156,7 @@ function calculate(liked) {
   });
 
   send_data(user_data);
-  window.location = "./question.html";
+  //window.location = "./question.html";
 }
 
 const send_data = function (user_data) {
@@ -171,28 +171,4 @@ const send_data = function (user_data) {
   xhr.send(user_data);
 }
 
-const send_data1 = function (user_data) {
-  var url = "https://us-central1-stratosphere-172603.cloudfunctions.net/save_to_datastore";
-  $.ajax({
-    url: url,
-    type: "POST",
-    data: JSON.stringify({
-      name: "vanson",
-      score: 90
-    }),
-    xhrFields: {
-      // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
-      // This can be used to set the 'withCredentials' property.
-      // Set the value to 'true' if you'd like to pass cookies to the server.
-      // If this is enabled, your server must respond with the header
-      // 'Access-Control-Allow-Credentials: true'.
-      withCredentials: false
-    },
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    success: function () {
-      console.log("Pure jQuery Pure JS object");
-    }
-  });
 
-}
