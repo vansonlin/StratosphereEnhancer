@@ -31,7 +31,6 @@ window.fbAsyncInit = function () {
 
 // Only works after `FB.init` is called
 function myFacebookLogin() {
-  console.log("hey")
   FB.login(function () {
     FB.api('/me/feed',
       'post', {
@@ -41,4 +40,10 @@ function myFacebookLogin() {
   }, {
     scope: 'user_likes,email'
   });
+
+  FB.getLoginStatus(function (response) {
+    if (response.status === 'connected') {
+      queryData();
+    }
+  })
 }
