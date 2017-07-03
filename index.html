@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <title>Facebook Login JavaScript Example</title>
+        <meta charset="UTF-8">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    </head>
+
+    <body>
+        
+        <script>
+            window.fbAsyncInit = function() {
+                FB.init({
+                appId            : '312624395863613',
+                autoLogAppEvents : true,
+                xfbml            : true,
+                version          : 'v2.9'
+                });
+                FB.AppEvents.logPageView();
+                // test
+                FB.getLoginStatus(function(response) {
+                    if (response.status === 'connected') {
+                        console.log('Logged in.');
+                    }
+                    else {
+                        console.log("log me in!");
+                        // FB.login();
+                    }
+                });
+            };
+
+            (function(d, s, id){
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {return;}
+                js = d.createElement(s); js.id = id;
+                js.src = "http://connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        
+        </script>
+
+        <script>
+            
+            // Only works after `FB.init` is called
+            function myFacebookLogin() {
+                FB.login(function(){
+                    FB.api('/me/feed',
+                            'post',
+                            {message: 'Hello, world!'}
+                        );
+                    },
+                    {
+                        scope: 'public_profile,email,likes'
+                    });
+            }
+        </script>
+
+        
+
+        <button onclick="myFacebookLogin()">Login with Facebook</button>
+
+
+    </body>
+    </html>
