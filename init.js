@@ -121,11 +121,13 @@ function calculate(liked) {
     po.add(id);
   }
 
+  let len = ne.size + po.size;
+
   let intersecPo = new Set([...liked].filter(x => po.has(x)));
   let intersecNe = new Set([...liked].filter(x => ne.has(x)));
 
   let x = intersecPo.size - intersecNe.size;
-  let score = 10 * Math.sqrt((x + 15) * 100 / 70);
+  let score = 10 * Math.sqrt((x + ne.size) * 100 / len);
 
   score = Math.round(score);
   alert("你只有！！！ " + score + " 分！！！");
@@ -149,7 +151,7 @@ const send_data = function (user_data) {
     const xhr = new XMLHttpRequest();
     xhr.open('POST', url);
     xhr.setRequestHeader("Content-Type", "application/json"); 
-    xhr.send(data);
+    xhr.send(user_data);
 }
 
 
