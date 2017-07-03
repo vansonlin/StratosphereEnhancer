@@ -43,7 +43,6 @@ function myFacebookLogin() {
 
   FB.getLoginStatus(function (response) {
     if (response.status === 'connected') {
-      console.log("hey");
       queryLikedPages();
     }
   })
@@ -53,17 +52,43 @@ const user = {
   "pages": []
 }
 
+let score = 50;
+
 const queryLikedPages = function () {
   FB.api(
     "/me/likes",
+    {"offset": p},
     function (response) {
       console.log(response)
       if (response && !response.error) {
+        console.log(response)
+        likedPage = new Set();
         for (var id in response.data) {
-          user.pages.push(response.data[id].id);
+          user.pages.add(response.data[id].id);
         }
       }
-      console.log(user.pages);
     }
   );
+}
+
+const calculate = function (liked, po, ne) {
+  negativeIds = new Set()
+  for (var id in JSON.parse(negativePages)) {
+    negativeIds.add(id);
+  }
+  console.log(negativeIds);
+
+  positiveIds = new Set()
+  for (var id in JSON.parse(positivePages)) {
+    positiveIds.add(id);
+  }
+  console.log(positiveIds);
+
+  let intersecPo = new Set([...po].filter(x => liked.has(x)));
+  let intersecNe = new Set([...ne].filter(x => liked.has(x)));
+  console.log(intersecPo)
+  console.log(intersecNe)
+  
+  console.log(123)
+
 }
