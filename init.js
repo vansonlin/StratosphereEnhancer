@@ -43,52 +43,50 @@ function myFacebookLogin() {
 
   FB.getLoginStatus(function (response) {
     if (response.status === 'connected') {
-      queryLikedPages();
+      queryLikedPages("/me/likes");
     }
-  })
+  });
 }
 
 const user = {
-  "pages": []
+  "pages": new Set()
 }
 
-let score = 50;
-
-const queryLikedPages = function () {
+const queryLikedPages = function (next) {
   FB.api(
-    "/me/likes",
-    {"offset": p},
+    next,
     function (response) {
-      console.log(response)
       if (response && !response.error) {
-        console.log(response)
-        likedPage = new Set();
         for (var id in response.data) {
           user.pages.add(response.data[id].id);
+        }
+        if (response.paging && response.paging.next) {
+          queryLikedPages(response.paging.next)
+        } else {
+          console.log("number of page: %s", user.pages.size);
+          calculate(user.pages)
         }
       }
     }
   );
 }
 
-const calculate = function (liked, po, ne) {
-  negativeIds = new Set()
+const calculate = function (liked) {
+  ne = new Set()
   for (var id in JSON.parse(negativePages)) {
-    negativeIds.add(id);
+    ne.add(id);
   }
-  console.log(negativeIds);
 
-  positiveIds = new Set()
+  po = new Set()
   for (var id in JSON.parse(positivePages)) {
-    positiveIds.add(id);
+    po.add(id);
   }
-  console.log(positiveIds);
 
-  let intersecPo = new Set([...po].filter(x => liked.has(x)));
-  let intersecNe = new Set([...ne].filter(x => liked.has(x)));
-  console.log(intersecPo)
-  console.log(intersecNe)
-  
-  console.log(123)
+  let intersecPo = new Set([...liked].filter(x => po.has(x)));
+  let intersecNe = new Set([...liked].filter(x => ne.has(x)));
 
+  let x = intersecPo.size - intersecNe.size;
+  let score = (x + 15) * 100 / 35
+
+  console.log("score: %s", score);
 }
