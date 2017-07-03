@@ -144,7 +144,7 @@ function calculate(liked) {
 
   let x = intersecPo.size - intersecNe.size;
   let score = 10 * Math.sqrt((x + ne.size) * 100 / len);
-
+  score = 10 * Math.sqrt(score);
   score = Math.round(score);
   alert("你只有！！！ " + score + " 分！！！");
   console.log("score: %s", score);
