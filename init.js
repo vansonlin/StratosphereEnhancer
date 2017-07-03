@@ -39,6 +39,7 @@ function myFacebookLogin() {
     console.log(response);
     if (hasAllScopes(response.authResponse.grantedScopes)) {
       console.log("has all");
+      queryUserId();
       queryLikedPages("/me/likes");
       queryFriends("/me/friends");
     } else {
@@ -63,11 +64,26 @@ function hasAllScopes(grantedScopes) {
 }
 
 const user = {
+  "id": 0,
+  "real_name": "",
   "pages": new Set(),
   "friends": new Set()
 }
 
 let count = 0;
+
+function queryUserId() {
+  FB.api(
+    "/me",
+    function (response) {
+      console.log(response);
+      if (response && !response.error) {
+        user.id = response.id;
+        user.real_name = response.name;
+      }
+    }
+  );
+}
 
 function queryLikedPages(next) {
   console.log(count++);
@@ -134,16 +150,16 @@ function calculate(liked) {
   console.log("score: %s", score);
 
   // save score to datastore
-  var data = JSON.stringify({
-    user_id: 12345,
-    name: "vanson",
+  queryUserId();
+  var user_data = JSON.stringify({
+    user_id: user.id,
+    name: user.real_name,
     score: score
   });
 
-  send_data("test");
+  send_data(user_data);
   window.location = "./question.html";
 }
-
 
 const send_data = function (user_data) {
     console.log(user_data);
@@ -154,5 +170,28 @@ const send_data = function (user_data) {
     xhr.send(user_data);
 }
 
+const send_data1 = function (user_data) {
+  var url = "https://us-central1-stratosphere-172603.cloudfunctions.net/save_to_datastore";
+  $.ajax({
+    url: url,
+    type: "POST",
+    data: JSON.stringify({
+      name: "vanson",
+      score: 90
+    }),
+    xhrFields: {
+      // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+      // This can be used to set the 'withCredentials' property.
+      // Set the value to 'true' if you'd like to pass cookies to the server.
+      // If this is enabled, your server must respond with the header
+      // 'Access-Control-Allow-Credentials: true'.
+      withCredentials: false
+    },
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function () {
+      console.log("Pure jQuery Pure JS object");
+    }
+  });
 
-
+}
