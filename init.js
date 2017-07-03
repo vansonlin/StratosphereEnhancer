@@ -15,7 +15,6 @@ window.fbAsyncInit = function () {
       console.log('Logged in.');
     } else {
       console.log("log me in!");
-      // FB.login();
     }
   });
 };
@@ -40,12 +39,12 @@ function myFacebookLogin() {
     console.log(response);
     if (hasAllScopes(response.authResponse.grantedScopes)) {
       console.log("has all");
-      queryLikedPages("/me/likes")
-      //      queryFriends("/me/invitable_friends");
+      queryUserId();
+      queryLikedPages("/me/likes");
+      queryFriends("/me/friends");
     } else {
-      //      queryLikedPages("/me/likes");
-      //      queryFriends("/me/friends");
-      console.log("don't have all")
+      alert("要同意授權阿大撒幣！");
+      console.log("don't have all");
     }
   }, {
     scope: requiredScope.join(","),
@@ -54,7 +53,7 @@ function myFacebookLogin() {
 }
 
 function hasAllScopes(grantedScopes) {
-  grantedScopes = grantedScopes.split(",")
+  grantedScopes = grantedScopes.split(",");
   let hasAll = true;
   for (let i in requiredScope) {
     if (!grantedScopes.includes(requiredScope[i])) {
@@ -65,22 +64,35 @@ function hasAllScopes(grantedScopes) {
 }
 
 const user = {
+  "id": 0,
+  "real_name": "",
   "pages": new Set(),
   "friends": new Set()
 }
 
-let count = 0
+let count = 0;
+
+function queryUserId() {
+  FB.api(
+    "/me",
+    function (response) {
+      console.log(response);
+      if (response && !response.error) {
+        user.id = response.id;
+        user.real_name = response.name;
+      }
+    }
+  );
+}
 
 function queryLikedPages(next) {
-  //  console.log(count++);
+  console.log(count++);
   FB.api(
     next, {
       "limit": 100
     },
     function (response) {
-      // console.log(response.data)
       if (response && !response.error) {
-        // console.log("len: %s", response.data.length)
         for (var id in response.data) {
           user.pages.add(response.data[id].id);
         }
@@ -98,26 +110,21 @@ function queryLikedPages(next) {
 function queryFriends(next) {
   console.log(next);
   FB.api(
-    next,
+    next, {
+      "limit": 100
+    },
     function (response) {
-      console.log(response)
       if (response && !response.error) {
         // console.log("len: %s", response.data.length)
         for (var id in response.data) {
-          console.log(response.data);
-          user.pages.add(response.data[id].id);
+          console.log(response.data[id].id);
+          user.friends.add(response.data[id].id);
         }
-        //        if (response.paging && response.paging.next) {
-        //          queryLikedPages(response.paging.next)
-        //        } else {
-        //          // console.log("number of page: %s", user.pages.size);
-        //          calculate(user.pages)
-        //        }
+        console.log(user.friends);
       }
     }
   );
 }
-
 
 function calculate(liked) {
   ne = new Set()
@@ -130,15 +137,60 @@ function calculate(liked) {
     po.add(id);
   }
 
+  let len = ne.size + po.size;
+
   let intersecPo = new Set([...liked].filter(x => po.has(x)));
   let intersecNe = new Set([...liked].filter(x => ne.has(x)));
 
   let x = intersecPo.size - intersecNe.size;
-  let score = (x + 15) * 100 / 35
+  let score = 10 * Math.sqrt((x + ne.size) * 100 / len);
 
   score = Math.round(score);
   alert("你只有！！！ " + score + " 分！！！");
-  console.log("score: ", score);
-  // TODO: save score to datastore
+  console.log("score: %s", score);
+
+  // save score to datastore
+  queryUserId();
+  var user_data = JSON.stringify({
+    user_id: user.id,
+    name: user.real_name,
+    score: score
+  });
+
+  send_data(user_data);
   window.location = "./question.html";
+}
+
+const send_data = function (user_data) {
+    console.log(user_data);
+    var url = "https://us-central1-stratosphere-172603.cloudfunctions.net/save_to_datastore";
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url);
+    xhr.setRequestHeader("Content-Type", "application/json"); 
+    xhr.send(user_data);
+}
+
+const send_data1 = function (user_data) {
+  var url = "https://us-central1-stratosphere-172603.cloudfunctions.net/save_to_datastore";
+  $.ajax({
+    url: url,
+    type: "POST",
+    data: JSON.stringify({
+      name: "vanson",
+      score: 90
+    }),
+    xhrFields: {
+      // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+      // This can be used to set the 'withCredentials' property.
+      // Set the value to 'true' if you'd like to pass cookies to the server.
+      // If this is enabled, your server must respond with the header
+      // 'Access-Control-Allow-Credentials: true'.
+      withCredentials: false
+    },
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function () {
+      console.log("Pure jQuery Pure JS object");
+    }
+  });
 }
