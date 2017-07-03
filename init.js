@@ -121,12 +121,12 @@ function queryFriends(next) {
 
 function calculate(liked) {
   ne = new Set()
-  for (var id in JSON.parse(negativePages)) {
+  for (var id in negativePages) {
     ne.add(id);
   }
 
   po = new Set()
-  for (var id in JSON.parse(positivePages)) {
+  for (var id in positivePages) {
     po.add(id);
   }
 
