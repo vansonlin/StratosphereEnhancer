@@ -9,5 +9,12 @@
 
 }
 
+.results {
+  text-align: center;
+  margin: 80px auto;
+  width: 480px;
+}
 
-
+.question {
+  margin-top: 50px;
+}

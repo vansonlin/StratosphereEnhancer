@@ -130,4 +130,6 @@ function calculate(liked) {
   score = Math.round(score);
   alert("你只有！！！ " + score + " 分！！！");
   console.log("score: %s", score);
+  // save score to datastore
+  window.location = "./question.html";
 }

@@ -10,13 +10,15 @@
 </head>
 
 <body>
-  <script src="/init.js" async defer></script>
-  <div class="bg">
-    <h1 style="margin: 30px;">測驗你的同溫層指數！</h1>
-    <img src="fblogin.png" onclick="myFacebookLogin()" id="fb-btn">
+  <script src="init.js" async defer></script>
+  <script src="ui.js" async defer></script>
+  <div class="well results">
+    <h1 style="margin: 30px;">你的同溫層指數是</h1>
+    <p id="score" style="font-size: 48px; color: red;">x分</p>
   </div>
 
-  <script src="/page-list.js" async defer></script>
+  <img src="http://albinolullaby.com/img/s_fb_button.png" onclick="share()">
+
 </body>
 
 </html>

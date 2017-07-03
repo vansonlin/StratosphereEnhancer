@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Stratosphere Heat Test</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="container">
+
+  <h2>請回答下列問題</h2>
+  
+    <div class="form-group question">
+      <p>請以直覺從下列選出一種動物</p>
+      <div class="radio">
+        <label> 
+	    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+            貓
+        </label>
+      </div>
+      <div class="radio">
+        <label> 
+	    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+            狗
+        </label>
+      </div>
+      <div class="radio">
+        <label> 
+	    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+            兔子
+        </label>
+      </div>
+      <div class="radio">
+        <label> 
+	    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+            羊駝
+        </label>
+      </div>
+    </div> <!-- end form group -->
+
+
+    <div class="form-group question">
+      <p>你平常最常閱讀以下何家媒體</p>
+      <div class="radio">
+        <label> 
+	    <input type="radio" name="optionsRadios1" id="optionsRadios1" value="option1" checked>
+            自由時報
+        </label>
+      </div>
+      <div class="radio">
+        <label> 
+	    <input type="radio" name="optionsRadios1" id="optionsRadios1" value="option1" checked>
+            蘋果日報
+        </label>
+      </div>
+      <div class="radio">
+        <label> 
+	    <input type="radio" name="optionsRadios1" id="optionsRadios1" value="option1" checked>
+            中國時報
+        </label>
+      </div>
+      <div class="radio">
+        <label> 
+	    <input type="radio" name="optionsRadios1" id="optionsRadios1" value="option1" checked>
+            聯合報
+        </label>
+      </div>
+    </div> <!-- end form group -->
+
+    <div class="form-group question">
+      <p>請問你比較喜歡以下哪種早餐</p>
+      <div class="radio">
+        <label> 
+	    <input type="radio" name="optionsRadios2" id="optionsRadios1" value="option1" checked>
+            荷包蛋
+        </label>
+      </div>
+      <div class="radio">
+        <label> 
+	    <input type="radio" name="optionsRadios2" id="optionsRadios1" value="option1" checked>
+            煎蛋
+        </label>
+      </div>
+      <div class="radio">
+        <label> 
+	    <input type="radio" name="optionsRadios2" id="optionsRadios1" value="option1" checked>
+            水煮蛋
+        </label>
+      </div>
+      <div class="radio">
+        <label> 
+	    <input type="radio" name="optionsRadios2" id="optionsRadios1" value="option1" checked>
+            水波蛋
+        </label>
+      </div>
+    </div> <!-- end form group -->
+
+    <div class="form-group question">
+      <p>請問</p>
+      <div class="radio">
+        <label> 
+	    <input type="radio" name="optionsRadios3" id="optionsRadios1" value="option1" checked>
+            貓
+        </label>
+      </div>
+      <div class="radio">
+        <label> 
+	    <input type="radio" name="optionsRadios3" id="optionsRadios1" value="option1" checked>
+            狗
+        </label>
+      </div>
+      <div class="radio">
+        <label> 
+	    <input type="radio" name="optionsRadios3" id="optionsRadios1" value="option1" checked>
+            兔子
+        </label>
+      </div>
+      <div class="radio">
+        <label> 
+	    <input type="radio" name="optionsRadios3" id="optionsRadios1" value="option1" checked>
+            羊駝
+        </label>
+      </div>
+  <button class="btn btn-default" onclick="retrieve_data()">Submit</button>
+
+  <script>
+    function retrieve_data() {
+      // get data from datastore
+      window.location = "./result.html";  
+    }
+  
+  </script>
+
+</form>
+</body>
+</html>
