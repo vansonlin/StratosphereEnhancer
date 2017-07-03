@@ -146,29 +146,48 @@ function calculate(liked) {
   let score = 10 * Math.sqrt((x + ne.size) * 100 / len);
 
   score = Math.round(score);
-  alert("你只有！！！ " + score + " 分！！！");
+  //alert("你只有！！！ " + score + " 分！！！");
   console.log("score: %s", score);
 
   // save score to datastore
-  queryUserId();
   var user_data = JSON.stringify({
     user_id: user.id,
     name: user.real_name,
     score: score
   });
 
+  createCookie("score", score, 1);
   send_data(user_data);
-  //window.location = "./question.html";
+  window.location = "./question.html";
 }
 
 const send_data = function (user_data) {
-    console.log(user_data);
-    var url = "https://us-central1-stratosphere-172603.cloudfunctions.net/save_to_datastore";
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', url);
-    xhr.setRequestHeader("Content-Type", "application/json"); 
-    xhr.send(user_data);
+  console.log(user_data);
+  var url = "https://us-central1-stratosphere-172603.cloudfunctions.net/save_to_datastore";
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', url);
+  xhr.setRequestHeader("Content-Type", "application/json"); 
+  xhr.send(user_data);
 }
 
 
+function createCookie(name, value, days) {
+  var expires = "";
+  if (days) {
+    var date = new Date();
+    date.setTime(date.getTime() + (days*24*60*60*1000));
+    expires = "; expires=" + date.toUTCString();
+  }
+  document.cookie = name + "=" + value + expires + "; path=/";
+}
 
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
