@@ -40,12 +40,11 @@ function myFacebookLogin() {
     console.log(response);
     if (hasAllScopes(response.authResponse.grantedScopes)) {
       console.log("has all");
-      queryLikedPages("/me/likes")
-      //      queryFriends("/me/invitable_friends");
+      queryLikedPages("/me/likes");
+      queryFriends("/me/friends");
     } else {
-      //      queryLikedPages("/me/likes");
-      //      queryFriends("/me/friends");
-      console.log("don't have all")
+      alert("要同意授權阿大撒幣！");
+      console.log("don't have all");
     }
   }, {
     scope: requiredScope.join(","),
@@ -54,7 +53,7 @@ function myFacebookLogin() {
 }
 
 function hasAllScopes(grantedScopes) {
-  grantedScopes = grantedScopes.split(",")
+  grantedScopes = grantedScopes.split(",");
   let hasAll = true;
   for (let i in requiredScope) {
     if (!grantedScopes.includes(requiredScope[i])) {
@@ -69,18 +68,16 @@ const user = {
   "friends": new Set()
 }
 
-let count = 0
+let count = 0;
 
 function queryLikedPages(next) {
-  //  console.log(count++);
+  console.log(count++);
   FB.api(
     next, {
       "limit": 100
     },
     function (response) {
-      // console.log(response.data)
       if (response && !response.error) {
-        // console.log("len: %s", response.data.length)
         for (var id in response.data) {
           user.pages.add(response.data[id].id);
         }
@@ -98,26 +95,21 @@ function queryLikedPages(next) {
 function queryFriends(next) {
   console.log(next);
   FB.api(
-    next,
+    next, {
+      "limit": 100
+    },
     function (response) {
-      console.log(response)
       if (response && !response.error) {
         // console.log("len: %s", response.data.length)
         for (var id in response.data) {
-          console.log(response.data);
-          user.pages.add(response.data[id].id);
+          console.log(response.data[id].id);
+          user.friends.add(response.data[id].id);
         }
-        //        if (response.paging && response.paging.next) {
-        //          queryLikedPages(response.paging.next)
-        //        } else {
-        //          // console.log("number of page: %s", user.pages.size);
-        //          calculate(user.pages)
-        //        }
+        console.log(user.friends);
       }
     }
   );
 }
-
 
 function calculate(liked) {
   ne = new Set()
@@ -134,7 +126,7 @@ function calculate(liked) {
   let intersecNe = new Set([...liked].filter(x => ne.has(x)));
 
   let x = intersecPo.size - intersecNe.size;
-  let score = 10* Math.sqrt((x + 15) * 100 / 70);
+  let score = 10 * Math.sqrt((x + 15) * 100 / 70);
 
   score = Math.round(score);
   alert("你只有！！！ " + score + " 分！！！");
