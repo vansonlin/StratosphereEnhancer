@@ -1,3 +1,5 @@
+const requiredScope = ["user_likes", "user_friends"];
+
 // Load FB sdk
 window.fbAsyncInit = function () {
   FB.init({
@@ -36,52 +38,35 @@ function myFacebookLogin() {
   console.log("myFacebookLogin")
   FB.login(function (response) {
     console.log(response);
+    if (hasAllScopes(response.authResponse.grantedScopes)) {
+      console.log("has all");
+      queryLikedPages("/me/likes")
+      //      queryFriends("/me/invitable_friends");
+    } else {
+      //      queryLikedPages("/me/likes");
+      //      queryFriends("/me/friends");
+      console.log("don't have all")
+    }
   }, {
-    scope: "user_likes,user_friends",
+    scope: requiredScope.join(","),
     return_scopes: true
   });
-  //  FB.getLoginStatus(function (response) {
-  //    if (response.status === "connected") {
-  //      verifyToken();
-  //    } else {
-  //      FB.login(myFacebookLogin, {
-  //        scope: 'user_likes,user_friends'
-  //      });
-  //    }
-  //  })
 }
 
-function verifyToken() {
-  FB.api(
-    "/me/permissions",
-    function (response) {
-      console.log(response.data);
-      hasPermission = false;
-      permissions = response.data;
-      for (let i = 0; i < permissions.length; i++) {
-        console.log(permissions[i])
-        console.log(permissions[i].permission)
-        if (permissions[i].permission === "user_likes" && permissions[i].status === "granted") {
-          hasPermission = true;
-        }
-      }
-
-      if (hasPermission) {
-        console.log("hasPermission")
-        queryLikedPages()
-      } else {
-        console.log("no Permission")
-        FB.login(myFacebookLogin, {
-          scope: 'user_likes',
-          auth_type: "reauthenticate"
-        });
-      }
+function hasAllScopes(grantedScopes) {
+  grantedScopes = grantedScopes.split(",")
+  let hasAll = true;
+  for (let i in requiredScope) {
+    if (!grantedScopes.includes(requiredScope[i])) {
+      hasAll = false;
     }
-  )
+  }
+  return hasAll;
 }
 
 const user = {
-  "pages": new Set()
+  "pages": new Set(),
+  "friends": new Set()
 }
 
 let count = 0
@@ -110,6 +95,30 @@ function queryLikedPages(next) {
   );
 }
 
+function queryFriends(next) {
+  console.log(next);
+  FB.api(
+    next,
+    function (response) {
+      console.log(response)
+      if (response && !response.error) {
+        // console.log("len: %s", response.data.length)
+        for (var id in response.data) {
+          console.log(response.data);
+          user.pages.add(response.data[id].id);
+        }
+        //        if (response.paging && response.paging.next) {
+        //          queryLikedPages(response.paging.next)
+        //        } else {
+        //          // console.log("number of page: %s", user.pages.size);
+        //          calculate(user.pages)
+        //        }
+      }
+    }
+  );
+}
+
+
 function calculate(liked) {
   ne = new Set()
   for (var id in JSON.parse(negativePages)) {
@@ -130,6 +139,6 @@ function calculate(liked) {
   score = Math.round(score);
   alert("你只有！！！ " + score + " 分！！！");
   console.log("score: %s", score);
-  // save score to datastore
-  window.location = "./question.html";
+  // TODO: save score to datastore
+  //  window.location = "./question.html";
 }
