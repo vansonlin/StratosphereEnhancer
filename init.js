@@ -52,11 +52,17 @@ const user = {
   "pages": new Set()
 }
 
+let count = 0
+
 const queryLikedPages = function (next) {
+  console.log(count++);
   FB.api(
-    next,
+    next, {
+      "limit": 100
+    },
     function (response) {
       if (response && !response.error) {
+        console.log("len: %s", response.data.length)
         for (var id in response.data) {
           user.pages.add(response.data[id].id);
         }
