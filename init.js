@@ -15,7 +15,6 @@ window.fbAsyncInit = function () {
       console.log('Logged in.');
     } else {
       console.log("log me in!");
-      // FB.login();
     }
   });
 };
@@ -145,13 +144,17 @@ function calculate(liked) {
   score = Math.round(score);
   alert("你只有！！！ " + score + " 分！！！");
   console.log("score: %s", score);
-  // TODO: save score to datastore
-  //  window.location = "./question.html";
 
   // save score to datastore
-  //send_data("test");
-}
+  var data = JSON.stringify({
+    user_id: 12345,
+    name: "vanson",
+    score: score
+  });
 
+  send_data("test");
+  window.location = "./question.html";
+}
 
 const send_data = function (user_data) {
   var data = JSON.stringify({
@@ -169,8 +172,6 @@ const send_data = function (user_data) {
   }
   xhr.send(data);
 }
-
-
 
 const send_data1 = function (user_data) {
   var url = "https://us-central1-stratosphere-172603.cloudfunctions.net/save_to_datastore";
