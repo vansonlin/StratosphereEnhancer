@@ -134,7 +134,7 @@ function calculate(liked) {
   let intersecNe = new Set([...liked].filter(x => ne.has(x)));
 
   let x = intersecPo.size - intersecNe.size;
-  let score = (x + 15) * 100 / 35
+  let score = 10* Math.sqrt((x + 15) * 100 / 70);
 
   score = Math.round(score);
   alert("你只有！！！ " + score + " 分！！！");
