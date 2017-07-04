@@ -45,7 +45,7 @@ function myFacebookLogin() {
       queryFriends("/me/friends");
     } else {
       alert("要同意授權阿大撒幣！");
-      alert("或你可能不是 tester ，找 Vanson 喝杯茶吧！");
+      alert("或你可能不是 tester ，找同溫組搏感情啊！");
       console.log("don't have all");
     }
   }, {
@@ -149,13 +149,8 @@ function calculate(liked) {
   console.log("score: %s", score);
 
   createCookie("score", score, 1);
-<<<<<<< Updated upstream
   createCookie("user_id", user.id, 1);
   createCookie("real_name", user.real_name, 1);
-=======
-  createCookie("user_id", user.user_id, 1);
->>>>>>> Stashed changes
-  // send_data(user_data);
   window.location = "./question.html";
 }
 
@@ -180,7 +175,6 @@ const send_data = function (answer) {
   }
   xhr.send(user_data);
 }
-
 
 function createCookie(name, value, days) {
   var expires = "";

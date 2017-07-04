@@ -6,7 +6,6 @@
 #fb-btn {
   margin-top: 50px;
   width: 40%;
-
 }
 
 #round {
@@ -19,7 +18,6 @@
   visibility: hidden;
   width: 300px;
   margin: 20px auto;
-
 }
 
 .results {
@@ -44,6 +42,11 @@
   font-weight: 900;
 }
 
+<<<<<<< HEAD
 .question div {
   margin-left: 50px;
+=======
+#sabi {
+  color: red;
+>>>>>>> 3afacb9cd4057ee9bd6629738979cf6e6f49d463
 }
