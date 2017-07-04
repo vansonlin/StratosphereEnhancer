@@ -9,6 +9,11 @@
 
 }
 
+#round {
+  width: 70px;
+}
+
+
 #loading {
   display: block;
   visibility: hidden;
@@ -24,7 +29,9 @@
 }
 
 .question {
-  margin-top: 50px;
+  margin-top: 30px;
+  margin-left: 20px;
+  font-size: 20px;
 }
 
 #share-btn {
@@ -35,4 +42,8 @@
 
 #score {
   font-weight: 900;
+}
+
+.question div {
+  margin-left: 50px;
 }

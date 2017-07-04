@@ -148,18 +148,23 @@ function calculate(liked) {
   //alert("你只有！！！ " + score + " 分！！！");
   console.log("score: %s", score);
 
-  // save score to datastore
-  var user_data = JSON.stringify({
-    user_id: user.id,
-    name: user.real_name,
-    score: score
-  });
-
   createCookie("score", score, 1);
-  send_data(user_data);
+  createCookie("user_id", user.id, 1);
+  createCookie("real_name", user.real_name, 1);
+  // send_data(user_data);
+  window.location = "./question.html";
 }
 
-const send_data = function (user_data) {
+const send_data = function (answer) {
+ 
+  // save score to datastore
+  var user_data = JSON.stringify({
+    user_id: readCookie("user_id"),
+    name: readCookie("real_name"),
+    score: readCookie("score"),
+    answer: answer
+  });
+    
   console.log(user_data);
   var url = "https://us-central1-stratosphere-172603.cloudfunctions.net/save_to_datastore";
   const xhr = new XMLHttpRequest();
