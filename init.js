@@ -45,7 +45,7 @@ function myFacebookLogin() {
       queryFriends("/me/friends");
     } else {
       alert("要同意授權阿大撒幣！");
-      alert("或你可能不是 tester ，找 Vanson 喝杯茶吧！");
+      alert("或你可能不是 tester ，找同溫組搏感情啊！");
       console.log("don't have all");
     }
   }, {
@@ -171,7 +171,6 @@ const send_data = function (user_data) {
   }
   xhr.send(user_data);
 }
-
 
 function createCookie(name, value, days) {
   var expires = "";
