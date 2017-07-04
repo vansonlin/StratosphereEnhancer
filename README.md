@@ -1,7 +1,7 @@
 # StratosphereEnhancer
 
 
-![Logo](/logo.png)
+![Logo](./images/logo.png)
 
 強化同溫層
 
