@@ -4,7 +4,7 @@ const send_data = function (answer) {
   var user_data = JSON.stringify({
     user_id: readCookie("user_id"),
     name: readCookie("real_name"),
-    score: readCookie("score"),
+    score: parseInt(readCookie("score")),
     answer: answer
   });
     
