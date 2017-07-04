@@ -4,8 +4,16 @@
 }
 
 #fb-btn {
-  margin-top: 30%;
+  margin-top: 50px;
   width: 40%;
+
+}
+
+#loading {
+  display: block;
+  visibility: hidden;
+  width: 300px;
+  margin: 20px auto;
 
 }
 

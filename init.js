@@ -35,6 +35,7 @@ window.fbAsyncInit = function () {
 // TODO(vanson): figure out the e04 login flow.
 function myFacebookLogin() {
   console.log("myFacebookLogin")
+  document.getElementById("loading").style.visibility = "visible";
   FB.login(function (response) {
     console.log(response);
     if (hasAllScopes(response.authResponse.grantedScopes)) {
