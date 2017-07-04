@@ -6,7 +6,6 @@
 #fb-btn {
   margin-top: 50px;
   width: 40%;
-
 }
 
 #loading {
@@ -14,7 +13,6 @@
   visibility: hidden;
   width: 300px;
   margin: 20px auto;
-
 }
 
 .results {
@@ -35,4 +33,8 @@
 
 #score {
   font-weight: 900;
+}
+
+#sabi {
+  color: red;
 }
