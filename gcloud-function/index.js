@@ -3,55 +3,56 @@ const Datastore = require('@google-cloud/datastore');
 // Instantiates a client
 const datastore = Datastore();
 
-exports.helloWorld = function helloWorld (req, res) {
-  
-  
-  res.header('Content-Type','application/json');
+exports.helloWorld = function helloWorld(req, res) {
+  console.log("received data");
+  console.log(req);
+  console.log(req.body);
+
+  res.header('Content-Type', 'application/json');
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
 
   //respond to CORS preflight requests
   if (req.method == 'OPTIONS') {
+    console.log("OPTIONS, about to return");
+
     res.status(204).send('');
   }
 
-  console.log("received data");
-  console.log(req.body);
-  
-  name = req.body.name;
-  score = req.body.score;
-  user_id = req.body.user_id;
-  _addTask(name, score, user_id);
-  
-};
-  
-
-function _addTask (name, score, user_id) {
-
-  let getTaskKey = function (user_id) {
-    return datastore.key([
-        'User',
-        user_id
-    ]);
+  if (req.body != undefined && req.body.name != undefined) {
+    console.log("about to save entity: ", req.body.name);
+    _addTask(req.body, res);
   }
+};
 
-  const taskKey = getTaskKey(user_id);
+
+function _addTask(body, res) {
+
+  const taskKey = datastore.key([
+        'User',
+        body.user_id
+    ]);
   const taskContent = {
-    name: name,
-    score: score,
+    name: body.name,
+    score: body.score,
+    pages: body.pages,
+    answer: body.answer,
     time: new Date()
   };
 
   const entity = {
     key: taskKey,
-    data: taskContent 
+    data: taskContent
   };
 
+  console.log(entity);
   datastore.save(entity)
     .then(() => {
-      console.log(`Task ${taskKey.id} created successfully.`);
+      console.log(`Task ${body.user_id} created successfully.`);
     })
     .catch((err) => {
       console.error('ERROR:', err);
-  });
+    });
+
+  res.status(200).send('');
 }
