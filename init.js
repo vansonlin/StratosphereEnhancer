@@ -149,8 +149,12 @@ function calculate(liked) {
   console.log("score: %s", score);
 
   createCookie("score", score, 1);
+<<<<<<< Updated upstream
   createCookie("user_id", user.id, 1);
   createCookie("real_name", user.real_name, 1);
+=======
+  createCookie("user_id", user.user_id, 1);
+>>>>>>> Stashed changes
   // send_data(user_data);
   window.location = "./question.html";
 }
