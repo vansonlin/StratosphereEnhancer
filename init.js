@@ -45,6 +45,7 @@ function myFacebookLogin() {
       queryFriends("/me/friends");
     } else {
       alert("要同意授權阿大撒幣！");
+      alert("或你可能不是 tester ，找 Vanson 喝杯茶吧！");
       console.log("don't have all");
     }
   }, {
@@ -156,7 +157,6 @@ function calculate(liked) {
 
   createCookie("score", score, 1);
   send_data(user_data);
-  window.location = "./question.html";
 }
 
 const send_data = function (user_data) {
@@ -165,6 +165,10 @@ const send_data = function (user_data) {
   const xhr = new XMLHttpRequest();
   xhr.open('POST', url);
   xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.onload = function (response) {
+    console.log(response);
+    window.location = "./question.html";
+  }
   xhr.send(user_data);
 }
 
