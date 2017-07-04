@@ -18,3 +18,13 @@
 .question {
   margin-top: 50px;
 }
+
+#share-btn {
+  width: 300px;
+  margin: 0px auto;
+  display: block;
+}
+
+#score {
+  font-weight: 900;
+}
