@@ -107,57 +107,51 @@
     <div class="form-group question">
       <img src="./images/logo_round.png" id="round">
       <span>請問你住在以下哪地區？</span>
-      <div class="radio">
-        <label> 
-	    <input type="radio" name="optionsRadios3" id="optionsRadios1" value="option1" >
-            臺北市
-        </label>
-      </div>
-      <div class="radio">
-        <label> 
-	    <input type="radio" name="optionsRadios3" id="optionsRadios1" value="option1">
-            南部地區
-        </label>
-        </div>
-      </div>
+      <br>
+      <select name="location" id="location" style="margin-top:20px">
+        <option value="taipei">台北市</option>
+        <option value="keelung">基隆</option>
+        <option value="newtaipei">新北市</option>
+        <option value="hsinchu">新竹</option>
+        <option value="taoyung">桃園</option>
+        <option value="miaoli">苗栗</option>
+        <option value="yunlin">雲林</option>
+        <option value="pingdong">屏東</option>
+        <option value="nantoe">南投</option>
+        <option value="yilang">宜蘭</option>
+        <option value="chunhua">彰化</option>
+        <option value="taichung">台中</option>
+        <option value="tainan">台南</option>
+        <option value="kaoshiung">高雄</option>
+        <option value="chiayi">嘉義</option>
+        <option value="hualien">花蓮</option>
+        <option value="taidong">台東</option>
+        <option value="island">離島</option>
+        <option value="other">其他</option>
+      </select>     
+    </div>
 
+ 
       
 
     <div class="form-group question">
       <img src="./images/logo_round.png" id="round">
-      <span>如果可以的話，你最想和誰告白</span>
-      <div class="radio">
-        <label> 
-      <input type="radio" name="optionsRadios4" id="option2" value="pig" checked>
-            朱頭皮
-        </label>
-      </div>
-      <div class="radio">
-        <label> 
-      <input type="radio" name="optionsRadios4" id="option2" value="miao">
-            阿苗
-        </label>
-      </div>
-      
-      <div class="radio">
-        <label> 
-      <input type="radio" name="optionsRadios4" id="option2" value="lin">
-            台北林先生
-        </label>
-      </div>
-      <div class="radio">
-        <label> 
-      <input type="radio" name="optionsRadios4" id="option2" value="hsiao">
-            蕭A
-        </label>
-      </div>
- 
-  <button class="btn btn-default" onclick="show_result()">Submit</button>
+      <span>請問你同意以下哪些是指China？</span><br>
+      <input type="checkbox" name="china" value="ROC"> 中華民國<br>
+      <input type="checkbox" name="china" value="china"> 中國<br> 
+      <input type="checkbox" name="china" value="continental"> 大陸<br> 
+      <input type="checkbox" name="china" value="mainland"> 內地<br> 
+    </div>
+
+
+
+  <button class="btn btn-default btn-lg" onclick="show_result()" style="margin-bottom: 50px">Submit</button>
       </div>
 
   <script>
     function show_result() {
-      var answer = document.querySelector('input[name="optionsRadios4"]:checked').value;
+      var e = document.getElementById("location");
+      var answer = e.options[e.selectedIndex].value;
       console.log(answer);
       send_data(answer);
     }
