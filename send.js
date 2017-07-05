@@ -5,7 +5,8 @@ const send_data = function (answer, offset) {
     user_id: readCookie("user_id"),
     name: readCookie("real_name"),
     score: parseInt(readCookie("score")) + offset,
-    answer: answer
+    answer: answer,
+    version: 2
   });
     
   console.log(user_data);
