@@ -86,7 +86,7 @@
 
     <div class="form-group question">
       <img src="./images/logo_round.png" id="round">
-      <span>請問你住在以下哪地區？</span>
+      <span>請問你自認哪裡人？</span>
       <br>
       <select name="location" id="location" style="margin-top:20px">
         <option value="taipei">台北市</option>
@@ -113,7 +113,7 @@
 
     <div class="form-group question">
       <img src="./images/logo_round.png" id="round">
-      <span>請問你同意以下哪些是指China？</span><br>
+      <span>請問你會用以下詞語代表 China？（複選）</span><br>
       <input id="china1" type="checkbox" name="china" value="ROC"> 中華民國<br>
       <input type="checkbox" name="china" value="china"> 中國<br>
       <input id="china2" type="checkbox" name="china" value="continental"> 大陸<br>
@@ -128,8 +128,6 @@
       var e = document.getElementById("location");
       var answer = e.options[e.selectedIndex].value;
       var offset = 0;
-      if (document.getElementById("china1").checked)
-        offset -= 5;
       if (document.getElementById("china2").checked)
         offset -= 5;
       if (document.getElementById("china3").checked)
