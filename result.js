@@ -9,8 +9,8 @@ function share(score) {
     method: 'share_open_graph',
     action_type: 'og.likes',
     action_properties: JSON.stringify({
-        // change it to production link later
-        object:'http://localhost:8080',
+        // TODO: change it to production link later
+        object:'https://vansonlin.github.io/StratosphereEnhancer',
     })
   }, function(response){
     // Debug response (optional)
