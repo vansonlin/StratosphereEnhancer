@@ -6,16 +6,16 @@
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css">
-  <script src="./send.js"></script>
 </head>
 
 <body>
+  <script src="./util.js" async defer></script>
 
   <div class="container">
 
 <img src="./images/logo1.png">
 <h2>請回答下列問題</h2>
-  
+
     <div class="form-group question">
       <img src="./images/logo_round.png" id="round">
       <span>請以直覺從下列選出一種動物</span>
@@ -26,30 +26,29 @@
       <input type="radio" name="animal" value="">羊駝 <br>
    </div> <!-- end form group -->
 
-
     <div class="form-group question">
       <img src="./images/logo_round.png" id="round">
       <span>你平常最常閱讀以下何家媒體</span>
       <div class="radio">
-        <label> 
+        <label>
 	    <input type="radio" name="optionsRadios1" id="optionsRadios1" value="option1" >
             自由時報
         </label>
       </div>
       <div class="radio">
-        <label> 
+        <label>
 	    <input type="radio" name="optionsRadios1" id="optionsRadios1" value="option1">
             蘋果日報
         </label>
       </div>
       <div class="radio">
-        <label> 
+        <label>
 	    <input type="radio" name="optionsRadios1" id="optionsRadios1" value="option1">
             中國時報
         </label>
       </div>
       <div class="radio">
-        <label> 
+        <label>
 	    <input type="radio" name="optionsRadios1" id="optionsRadios1" value="option1">
             聯合報
         </label>
@@ -60,25 +59,25 @@
       <img src="./images/logo_round.png" id="round">
       <span>請問你比較喜歡以下哪種早餐</span>
       <div class="radio">
-        <label> 
+        <label>
 	    <input type="radio" name="optionsRadios2" id="optionsRadios1" value="option1" >
             荷包蛋
         </label>
       </div>
       <div class="radio">
-        <label> 
+        <label>
 	    <input type="radio" name="optionsRadios2" id="optionsRadios1" value="option1">
             煎蛋
         </label>
       </div>
       <div class="radio">
-        <label> 
+        <label>
 	    <input type="radio" name="optionsRadios2" id="optionsRadios1" value="option1">
             水煮蛋
         </label>
       </div>
       <div class="radio">
-        <label> 
+        <label>
 	    <input type="radio" name="optionsRadios2" id="optionsRadios1" value="option1">
             水波蛋
         </label>
@@ -109,19 +108,16 @@
         <option value="taidong">台東</option>
         <option value="island">離島</option>
         <option value="other">其他</option>
-      </select>     
+      </select>
     </div>
-
- 
-      
 
     <div class="form-group question">
       <img src="./images/logo_round.png" id="round">
       <span>請問你同意以下哪些是指China？</span><br>
       <input id="china1" type="checkbox" name="china" value="ROC"> 中華民國<br>
-      <input type="checkbox" name="china" value="china"> 中國<br> 
-      <input id="china2" type="checkbox" name="china" value="continental"> 大陸<br> 
-      <input id="china3" type="checkbox" name="china" value="mainland"> 內地<br> 
+      <input type="checkbox" name="china" value="china"> 中國<br>
+      <input id="china2" type="checkbox" name="china" value="continental"> 大陸<br>
+      <input id="china3" type="checkbox" name="china" value="mainland"> 內地<br>
     </div>
 
   <button class="btn btn-default btn-lg" onclick="show_result()" style="margin-bottom: 50px">Submit</button>
@@ -138,9 +134,11 @@
         offset -= 5;
       if (document.getElementById("china3").checked)
         offset -= 5;
-      send_data(answer, offset);
+
+      score = parseInt(readCookie("score"))
+      createCookie("score", score + offset , 1);
+      sendData(answer);
     }
-  
   </script>
 
 </form>
